@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+	.btn {background-color: blue; color: white; font-weight: bold}
+	h2 {font-family: arial; margin-top: 45px}
+	body {margin-left: 25px; font-family: arial}
+</style>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"> </script>
+
+<script type="text/javascript">
+
+if(window.addEventListener) {//hey browser, do you understand what addEventListener is?
+//addEventListener("dom 2 event", "functionName, boolean);
+window.addEventListener("load",loadEventListeners,false);
+}
+else{
+  //IE8 and previous
+  //attachEvent("dom 1 event", functionName)
+  window.attachEvent("onload",loadEventListeners);
+  }
+
+  function loadEventListeners(){
+    if(document.addEventListener){
+	/************** text box **************/
+	document.getElementById("customColorTB").addEventListener("change",changeTheBackground,false);
+	/********** checkboxes ******************/
+	//document.getElementById("pink").addEventListener("click", changeTheBackground, false);
+	//document.getElementById("white").addEventListener("click", changeTheBackground, false);
+	//document.getElementById("gold").addEventListener("click", changeTheBackground, false);
+	var cbItems = document.getElementsByName("cb");
+	//the pink checkbox gets an array number of 0
+	//the gold checkbox gets an array number of 1
+	//the white checkbox gets an array number of 2
+	//all three get stored in the cbItems variable above
+	
+	//for(variable/initialValue; numberOfTimesToLoop; variableIncrementor)
+	for(var i=0; i< cbItems.length; i++) {
+      //alert("the variable value is " +i);	
+	  var cbId = document.getElementById(cbItems[i].id);
+	  document.getElementById(cbId.id).addEventListener("click", changeTheBackground, false);
+	  }
+	 
+	}
+	else{
+	/******** text box **********/
+	  document.getElementById("customColorTB").attachEvent("onchange",changeTheBackground);
+    /************ checkboxes ************/
+	  //document.getElementById("pink").attachEvent("onclick",changeTheBackground);
+	  //document.getElementById("white").attachEvent("onclick",changeTheBackground);
+	  //document.getElementById("gold").attachEvent("onclick",changeTheBackground);
+	  var cbItems = document.getElementsByName("cb");
+	  for(var i=0; i< cbItems.length; i++) {
+      //alert("the variable value is " +i);	
+	  var cbId = document.getElementById(cbItems[i].id);
+	  document.getElementById(cbId.id).attachEvent("onclick", changeTheBackground);
+	  //you can combine the two lines of code by doing the following:
+	  //document.getElementById(cbItems[i].id).attachEvent("onclick", changeTheBackground);
+	  
+	  }
+	
+	}
+  }
+  function changeTheBackground(theTarget){
+   //alert("running");  
+  
+  if(theTarget.target){
+    var colorValue=theTarget.target.value || theTarget.target.id;
+     //alert(tt); 	
+	 document.getElementById("myBG").style.backgroundColor=colorValue;
+  }
+  else{
+     var targetElementColor=theTarget.srcElement.value || theTarget.srcElement.id;
+	 document.getElementById("myBG").style.backgroundColor=targetElementColor;
+  }
+ }
+ 
+ jQuery(
+  function(){
+    //$("#jsForm").find("select").change(   
+	  $("#jsForm select").change(
+	    function(){
+	      //css("css property", value)
+		  $("body").css("background-color", this.value)
+	  }
+	)
+       //$("#jsForm").find("input.btn").change(
+       //input.btn means an input tag with a class of btn applied to it	   
+		$("input.btn").click(
+		  function(){
+		    $("body").css("background-color", this.value)
+		  
+		  }
+		)
+  } 
+ );
+</script>
+
+
+</head>
+
+<body id="myBG">
+
+<form>
+
+<h2>addEventListener/attachEvent</h2>
+
+			
+			Input a color name or a hexadecimal value<br />
+			<input type="text" id="customColorTB"/><br /><br />
+            <!-- the value attribute still needs to be declared even if it's an empty value. Otherwise the Javascript won't work with these boxes-->
+			<input type="checkbox" name="cb" id="pink" value="" /> Pink
+			<input type="checkbox" name="cb" id="gold" value="" /> Gold
+			<input type="checkbox" name="cb" id="white" value="" /> White    
+            
+</form>
+      
+      
+<form id="jsForm">            
+<h2>jQuery</h2>            
+
+			<select name="colorMenu" size="1">
+				<option>---Choose---</option>
+				<!-- IE8 and previous need the value attribute. All other browers can read the value in between the opening and closing option tags.-->
+				<option value="purple">Purple</option>
+				<option value="green">Green</option>
+				<option value="orange">Orange</option>
+			</select><br /><br />
+			
+
+	
+
+			
+			<input type="button" class="btn" value="turquoise" /> <!--if a stnadard colo name doens't wokr, give the input tag an id with a hexadecimal value. Then do this.id in the function instead of this.value -->
+			<input type="button" class="btn" value="red"/>
+			<input type="button" class="btn" value="black"/><br /><br />
+
+</form>
+
+</body>
+</html>
